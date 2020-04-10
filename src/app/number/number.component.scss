@@ -1,0 +1,27 @@
+:host {
+  margin: 0.2vw;
+  padding: 1.7vw;
+  width: 1vw;
+  height: 1vw;
+  font-size: 1.7vw;
+  cursor: pointer;
+}
+
+div {
+  border-radius: 5px;
+  user-select: none;
+  width: 3vw;
+  height: 3vw;
+  text-align: center;
+  display: inline-block;
+  line-height: 3vw;
+  color: #000;
+
+  &.selected {
+    background-color: #f298f4;
+  }
+
+  &:not(.selected) {
+    background-color: #f4f69c;
+  }
+}

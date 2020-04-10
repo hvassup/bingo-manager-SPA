@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NumberComponent } from './number/number.component';
+import { EventDialogComponent } from './event-dialog/event-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NumberComponent
+    NumberComponent,
+    EventDialogComponent
   ],
   imports: [
     BrowserModule

@@ -1,0 +1,39 @@
+:host {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../assets/bg.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+  background-color: #fcfbf7;
+}
+
+.num-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+img {
+  margin: 0 auto;
+}
+app-event-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(5px);
+  transition: all 0.5s;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  &:not(.active) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

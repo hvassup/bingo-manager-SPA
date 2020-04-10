@@ -1,9 +1,12 @@
-<div class="container">
-  <img width="300" alt="Angular Logo" src="../assets/xtreme.png">
-  <button (click)="random_number()">Generate Random Number</button>
-  {{random_num}}
-  <div class="num-container">
-    <app-number *ngFor="let number of all_numbers" [num]="number" (click)="onClicked(number)"
-                [ngClass]="{selected: selected[number - 1]}"></app-number>
-  </div>
+<!--<div class="top-contianer">-->
+<!--  <img width="300" alt="Angular Logo" src="../assets/xtreme.png">-->
+<!--  <button (click)="random_number()">Generate Random Number</button>-->
+<!--  {{random_num}}-->
+<!--</div>-->
+<app-event-dialog [class.active]="!!currentEvent" [event]="currentEvent" (closing)="nextEvent()">
+
+</app-event-dialog>
+<div class="num-container">
+  <app-number *ngFor="let number of all_numbers" [num]="number" (click)="onClicked(number)"
+              [selected]="selected[number - 1]"></app-number>
 </div>

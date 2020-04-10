@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  .container {
+    width: 20vw;
+    height: 10vw;
+    background-color: white;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      word-break: break-word;
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+    button {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 5px;
+    }
+  }
+}
