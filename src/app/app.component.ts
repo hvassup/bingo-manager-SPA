@@ -40,14 +40,17 @@ export class AppComponent {
   }
 
   nextEvent() {
-    this.currentEventIdx++;
-    if (this.eventArray.length > this.currentEventIdx) {
-      this.currentEvent = this.eventArray[this.currentEventIdx];
-    } else {
-      this.currentEventIdx = 0;
-      this.currentEvent = null;
-      this.eventArray = [];
-    }
+    this.currentEvent = null;
+    setTimeout(() => {
+      this.currentEventIdx++;
+      if (this.eventArray.length > this.currentEventIdx) {
+        this.currentEvent = this.eventArray[this.currentEventIdx];
+      } else {
+        this.currentEventIdx = 0;
+        this.currentEvent = null;
+        this.eventArray = [];
+      }
+    }, 500);
   }
 
   private _checkForEvent(num: number) {
