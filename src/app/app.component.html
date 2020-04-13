@@ -3,10 +3,10 @@
 <!--  <button (click)="random_number()">Generate Random Number</button>-->
 <!--  {{random_num}}-->
 <!--</div>-->
-<app-event-dialog [class.active]="!!currentEvent" [event]="currentEvent" (closing)="nextEvent()">
+<app-disconnected-overlay *ngIf="!plateService?.connected"></app-disconnected-overlay>
+<app-event-dialog [class.active]="!!eventService?.currentEvent" [event]="eventService?.currentEvent">
 
 </app-event-dialog>
-<div class="num-container">
-  <app-number *ngFor="let number of all_numbers" [num]="number" (click)="onClicked(number)"
-              [selected]="selected[number - 1]"></app-number>
-</div>
+<router-outlet>
+
+</router-outlet>

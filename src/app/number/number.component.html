@@ -1,3 +1,3 @@
-<div [class.selected]="selected">
+<div #numberContainer [class.disabled]="!plateService.isOwner" [class.selected]="selected">
   {{num}}
 </div>

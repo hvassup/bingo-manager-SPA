@@ -1,18 +1,19 @@
 :host {
   margin: 0.2vw;
   padding: 0.8vw;
-  font-size: 1.7vw;
-  cursor: pointer;
+  font-size: 150%;
 }
 
 div {
   border-radius: 5px;
   user-select: none;
-  width: 3vw;
-  height: 3vw;
+  // width: 3vw;
+  // height: 3vw;
+  width: 100%;
+  height: 100%;
   text-align: center;
   display: inline-block;
-  line-height: 3vw;
+  line-height: 250%; //min(3vh, 1.7vw);
   color: #000;
 
   &.selected {
@@ -21,5 +22,12 @@ div {
 
   &:not(.selected) {
     background-color: #f4f69c;
+  }
+
+  &.disabled {
+    cursor: default;
+  }
+  &:not(.disabled) {
+    cursor: pointer;
   }
 }

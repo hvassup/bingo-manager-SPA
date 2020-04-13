@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BingoEvent} from '../../models/bingoEvent';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-event-dialog',
@@ -7,14 +8,13 @@ import {BingoEvent} from '../../models/bingoEvent';
   styleUrls: ['./event-dialog.component.scss']
 })
 export class EventDialogComponent implements OnInit {
-  @Output() public closing = new EventEmitter();
   @Input() public event: BingoEvent;
 
-  constructor() {
+  constructor(public readonly eventService: EventService) {
   }
 
   public close() {
-    this.closing.emit();
+    this.eventService.nextEvent();
   }
 
   ngOnInit(): void {

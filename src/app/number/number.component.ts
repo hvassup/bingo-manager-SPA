@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {PlateService} from '../../services/plate.service';
 
 @Component({
   selector: 'app-number',
@@ -9,8 +10,15 @@ export class NumberComponent implements OnInit {
   @Input() selected = false;
   @Input() num: number;
 
-  constructor() {
+  @ViewChild('numberContainer') public numberContainer;
+
+  constructor(public readonly plateService: PlateService) {
   }
+
+  // @HostListener('window:resize')
+  // public onResize() {
+  //   // console.log(this.numberContainer.nativeElement.offsetHeight);
+  // }
 
   ngOnInit() {
   }
