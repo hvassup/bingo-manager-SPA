@@ -1,13 +1,15 @@
 import {get_user_id} from '../util/GUID.util';
 import {MessageTypeEnum} from '../models/messageType.enum';
 
+const SOCKET_HOSTNAME = 'wss://cleanwildwest.dk:8765';
+
 export abstract class SocketService {
   private _webSocket: WebSocket;
   private _myId = get_user_id();
   private _hasInitted = false;
 
   protected constructor() {
-    this._webSocket = new WebSocket('ws://167.71.40.166:8765');
+    this._webSocket = new WebSocket(SOCKET_HOSTNAME);
     this._webSocket.onopen = () => {
       console.log('Websocket connected');
       this.init();
