@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {SocketService} from './socketService';
 import {MessageTypeEnum} from '../models/messageType.enum';
 import {Router} from '@angular/router';
+import {ConfettiService} from './confetti.service';
 import {get_user_id} from '../util/GUID.util';
 
 @Injectable({
@@ -11,41 +12,28 @@ export class PlateService extends SocketService {
   public all_numbers: number[] = [];
   public selected = Array(90).fill(false);
   public isOwner: boolean;
-  private _ownerId: string;
 
-  constructor(private readonly _router: Router) {
+  constructor(private readonly _router: Router,
+              private readonly _confettiService: ConfettiService) {
     super();
     this.all_numbers = Array(90).fill(0).map((x, i) => i + 1);
-    this.registerOnReceived((msg) => {
-      console.log('Plate', msg);
-      switch (msg.messageType) {
-        case MessageTypeEnum.WELCOME:
-          if (msg.board) {
-            msg.board.forEach(n => this.updateNumberState(n, true));
-            this._updateOwner(msg.ownerId);
-          }
-          break;
-        case MessageTypeEnum.PLATE_UPDATE:
-          if (msg.number !== undefined && msg.state !== undefined) {
-            this.updateNumberState(msg.number, msg.state);
-          }
-          break;
-        case MessageTypeEnum.CREATE_GAME:
-          if (msg.gameId && msg.ownerId) {
-            this._updateOwner(msg.ownerId);
-            this._router.navigate(['spil', msg.gameId]);
-          }
-          break;
-      }
-    });
+    this.registerOnReceived((msg) => this._onMessageReceived(msg));
+  }
+
+  private _gameId: string;
+
+  public set gameId(value: string) {
+    this._gameId = value;
+    this.send({gameId: this._gameId}, MessageTypeEnum.JOIN_GAME);
+  }
+
+  public confettiTime() {
+    this.send({}, MessageTypeEnum.SHOW_CONFETTI);
   }
 
   public updatePlate(number: number) {
-    if (this.isOwner) {
-      this.updateNumberState(number, !this.selected[number - 1]);
-      const state = this.selected[number - 1];
-      this.send({number, state}, MessageTypeEnum.PLATE_UPDATE);
-    }
+    const state = !this.selected[number - 1];
+    this.send({number, state}, MessageTypeEnum.PLATE_UPDATE);
   }
 
   public updateNumberState(num: number, state: boolean) {
@@ -57,15 +45,34 @@ export class PlateService extends SocketService {
   }
 
   public createGame() {
-    this.send({}, MessageTypeEnum.CREATE_GAME);
+    this.send({uuid: get_user_id()}, MessageTypeEnum.CREATE_GAME);
   }
 
   public clear() {
     this.selected.map(() => false);
   }
 
-  private _updateOwner(ownerId) {
-    this._ownerId = ownerId;
-    this.isOwner = get_user_id() === this._ownerId;
+  private _onMessageReceived(msg: any) {
+    switch (msg.messageType) {
+      case MessageTypeEnum.WELCOME:
+        if (msg.board) {
+          msg.board.forEach(n => this.updateNumberState(n, true));
+          this.isOwner = msg.isOwner;
+        }
+        break;
+      case MessageTypeEnum.PLATE_UPDATE:
+        if (msg.number !== undefined && msg.state !== undefined) {
+          this.updateNumberState(msg.number, msg.state);
+        }
+        break;
+      case MessageTypeEnum.CREATE_GAME:
+        if (msg.gameId) {
+          this._router.navigate(['spil', msg.gameId]);
+        }
+        break;
+      case MessageTypeEnum.SHOW_CONFETTI:
+        this._confettiService.showConfetti();
+        break;
+    }
   }
 }

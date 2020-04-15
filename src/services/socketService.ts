@@ -6,13 +6,14 @@ const SOCKET_HOSTNAME = 'wss://cleanwildwest.dk:8765';
 export abstract class SocketService {
   private _webSocket: WebSocket;
   private _myId = get_user_id();
-  private _hasInitted = false;
+  private _messageQueue = [];
 
   protected constructor() {
     this._webSocket = new WebSocket(SOCKET_HOSTNAME);
+    this.send({uuid: this._myId}, MessageTypeEnum.WELCOME);
     this._webSocket.onopen = () => {
       console.log('Websocket connected');
-      this.init();
+      this._sendQueuedMessages();
     };
 
     this._webSocket.onclose = (evt) => {
@@ -29,25 +30,23 @@ export abstract class SocketService {
     return this._webSocket.readyState === 1;
   }
 
-  private _gameId: string;
-
-  public set gameId(value: string) {
-    this._gameId = value;
-    this.init();
+  public send(payload: any, messageType: MessageTypeEnum) {
+    payload.messageType = messageType;
+    console.log('Sending', payload, this.connected);
+    this._addToMessageQueue(payload);
   }
 
-  public init() {
-    if (this._gameId && this.connected && !this._hasInitted) {
-      this.send({}, MessageTypeEnum.WELCOME);
-      this._hasInitted = true;
+  private _addToMessageQueue(payload: any) {
+    this._messageQueue.push(payload);
+    if (this.connected) {
+      this._sendQueuedMessages();
     }
   }
 
-  public send(payload: any, messageType: MessageTypeEnum) {
-    payload.uuid = this._myId;
-    payload.messageType = messageType;
-    payload.gameId = this._gameId;
-    this._webSocket.send(JSON.stringify(payload));
+  private _sendQueuedMessages() {
+    while (this._messageQueue.length > 0) {
+      this._webSocket.send(JSON.stringify(this._messageQueue.shift()));
+    }
   }
 
   public close() {
