@@ -57,7 +57,6 @@ export class PlateService extends SocketService {
       case MessageTypeEnum.WELCOME:
         if (msg.board) {
           msg.board.forEach(n => this.updateNumberState(n, true));
-          this.isOwner = msg.isOwner;
         }
         break;
       case MessageTypeEnum.PLATE_UPDATE:
@@ -72,6 +71,11 @@ export class PlateService extends SocketService {
         break;
       case MessageTypeEnum.SHOW_CONFETTI:
         this._confettiService.showConfetti();
+        break;
+      case MessageTypeEnum.JOIN_GAME:
+        this.isOwner = msg.isOwner;
+        break;
+      default:
         break;
     }
   }

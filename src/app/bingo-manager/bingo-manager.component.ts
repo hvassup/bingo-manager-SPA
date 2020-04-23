@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./bingo-manager.component.scss']
 })
 export class BingoManagerComponent implements OnInit {
+  public numbersArray = Array(50).fill(0);
 
   constructor(public readonly plateService: PlateService,
               public readonly eventService: EventService,

@@ -1,7 +1,10 @@
+@import "src/styling/variables";
+
 :host {
   margin: 0.2vw;
   padding: 0.8vw;
   font-size: 150%;
+  z-index: 900;
 }
 
 div {
@@ -17,11 +20,11 @@ div {
   color: #000;
 
   &.selected {
-    background-color: #f298f4;
+    background-color: $selected-color;
   }
 
   &:not(.selected) {
-    background-color: #f4f69c;
+    background-color: $not-selected-color;
   }
 
   &.disabled {

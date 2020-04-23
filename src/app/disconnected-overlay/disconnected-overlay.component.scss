@@ -10,6 +10,7 @@
   left: 0;
   backdrop-filter: blur(5px);
   transition: all 0.5s;
+  z-index: 999;
   img {
     width: 10vh;
   }

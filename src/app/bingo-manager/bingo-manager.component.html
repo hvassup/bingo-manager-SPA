@@ -1,6 +1,8 @@
+<app-floater *ngFor="let i of numbersArray"></app-floater>
 <div class="num-container">
   <app-number (click)="onClicked(number)" *ngFor="let number of plateService?.all_numbers" [num]="number"
               [selected]="plateService?.selected[number - 1]"></app-number>
 </div>
 <app-big-red-button></app-big-red-button>
 <button (click)="confetti()"></button>
+

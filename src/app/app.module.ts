@@ -10,6 +10,7 @@ import {RouterModule} from '@angular/router';
 import {ALL_ROUTES} from '../constants/ALL_ROUTES';
 import {BingoManagerComponent} from './bingo-manager/bingo-manager.component';
 import {LandingPageComponent} from './landing-page/landing-page.component';
+import {FloaterComponent} from './floater/floater.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {LandingPageComponent} from './landing-page/landing-page.component';
     BigRedButtonComponent,
     DisconnectedOverlayComponent,
     BingoManagerComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    FloaterComponent
   ],
   imports: [
     BrowserModule,

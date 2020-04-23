@@ -2,6 +2,7 @@ import {get_user_id} from '../util/GUID.util';
 import {MessageTypeEnum} from '../models/messageType.enum';
 
 const SOCKET_HOSTNAME = 'wss://cleanwildwest.dk:8765';
+// const SOCKET_HOSTNAME = 'wss://127.0.0.1:8765';
 
 export abstract class SocketService {
   private _webSocket: WebSocket;
@@ -36,6 +37,14 @@ export abstract class SocketService {
     this._addToMessageQueue(payload);
   }
 
+  public close() {
+    this._webSocket.close();
+  }
+
+  public registerOnReceived(fn) {
+    this._onReceived = fn;
+  }
+
   private _addToMessageQueue(payload: any) {
     this._messageQueue.push(payload);
     if (this.connected) {
@@ -47,14 +56,6 @@ export abstract class SocketService {
     while (this._messageQueue.length > 0) {
       this._webSocket.send(JSON.stringify(this._messageQueue.shift()));
     }
-  }
-
-  public close() {
-    this._webSocket.close();
-  }
-
-  public registerOnReceived(fn) {
-    this._onReceived = fn;
   }
 
   private _onReceived = (_: any) => void 0;

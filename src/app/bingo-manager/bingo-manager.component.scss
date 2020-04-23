@@ -1,12 +1,16 @@
+@import "src/styling/variables";
+
 :host {
   display: block;
   width: 100vw;
   height: 100vh;
-  background-image: url("../../assets/bg.jpg");
+  // background-image: url("../../assets/bg.jpg");
+  background-image: $background-image-url;
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
   background-color: #fcfbf7;
+  overflow: hidden;
 }
 
 .num-container {
