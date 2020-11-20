@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SOCKET_HOSTNAME: 'wss://127.0.0.1:8765',
+  SOCKET_HOSTNAME: 'ws://127.0.0.1:8765',
 };
 
 /*
