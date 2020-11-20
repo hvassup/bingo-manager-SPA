@@ -4,6 +4,7 @@ import {MessageTypeEnum} from '../models/messageType.enum';
 import {Router} from '@angular/router';
 import {ConfettiService} from './confetti.service';
 import {get_user_id} from '../util/GUID.util';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class PlateService extends SocketService {
               private readonly _confettiService: ConfettiService) {
     super();
     this.all_numbers = Array(90).fill(0).map((x, i) => i + 1);
-    this.registerOnReceived((msg) => this._onMessageReceived(msg));
+
+    this.onMessage$.pipe(
+      tap((msg) => this._onMessageReceived(msg))
+    ).subscribe();
   }
 
   private _gameId: string;
@@ -53,6 +57,7 @@ export class PlateService extends SocketService {
   }
 
   private _onMessageReceived(msg: any) {
+    console.log(MessageTypeEnum[msg.messageType]);
     switch (msg.messageType) {
       case MessageTypeEnum.WELCOME:
         if (msg.board) {
@@ -74,6 +79,9 @@ export class PlateService extends SocketService {
         break;
       case MessageTypeEnum.JOIN_GAME:
         this.isOwner = msg.isOwner;
+        if (msg.board) {
+          msg.board.forEach(n => this.updateNumberState(n, true));
+        }
         break;
       default:
         break;

@@ -1,15 +1,19 @@
 import {get_user_id} from '../util/GUID.util';
 import {MessageTypeEnum} from '../models/messageType.enum';
 import {environment} from '../environments/environment';
+import {Subject} from 'rxjs';
+
+const gameType = 'bingo';
 
 export abstract class SocketService {
+  public onMessage$ = new Subject();
   private _webSocket: WebSocket;
   private _myId = get_user_id();
   private _messageQueue = [];
 
   protected constructor() {
     this._webSocket = new WebSocket(environment.SOCKET_HOSTNAME);
-    this.send({uuid: this._myId}, MessageTypeEnum.WELCOME);
+    this.send({uuid: this._myId, gameType}, MessageTypeEnum.WELCOME);
     this._webSocket.onopen = () => {
       console.log('Websocket connected');
       this._sendQueuedMessages();
@@ -21,7 +25,7 @@ export abstract class SocketService {
 
     this._webSocket.onmessage = (msg) => {
       console.log('Received: ', msg);
-      this._onReceived(JSON.parse(msg.data));
+      this.onMessage$.next(JSON.parse(msg.data));
     };
   }
 
@@ -39,10 +43,6 @@ export abstract class SocketService {
     this._webSocket.close();
   }
 
-  public registerOnReceived(fn) {
-    this._onReceived = fn;
-  }
-
   private _addToMessageQueue(payload: any) {
     this._messageQueue.push(payload);
     if (this.connected) {
@@ -55,6 +55,4 @@ export abstract class SocketService {
       this._webSocket.send(JSON.stringify(this._messageQueue.shift()));
     }
   }
-
-  private _onReceived = (_: any) => void 0;
 }
