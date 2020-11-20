@@ -57,34 +57,38 @@ export class PlateService extends SocketService {
   }
 
   private _onMessageReceived(msg: any) {
-    console.log(MessageTypeEnum[msg.messageType]);
-    switch (msg.messageType) {
-      case MessageTypeEnum.WELCOME:
-        if (msg.board) {
-          msg.board.forEach(n => this.updateNumberState(n, true));
-        }
-        break;
-      case MessageTypeEnum.PLATE_UPDATE:
-        if (msg.number !== undefined && msg.state !== undefined) {
-          this.updateNumberState(msg.number, msg.state);
-        }
-        break;
-      case MessageTypeEnum.CREATE_GAME:
-        if (msg.gameId) {
-          this._router.navigate(['spil', msg.gameId]);
-        }
-        break;
-      case MessageTypeEnum.SHOW_CONFETTI:
-        this._confettiService.showConfetti();
-        break;
-      case MessageTypeEnum.JOIN_GAME:
-        this.isOwner = msg.isOwner;
-        if (msg.board) {
-          msg.board.forEach(n => this.updateNumberState(n, true));
-        }
-        break;
-      default:
-        break;
+    if (typeof this[MessageTypeEnum[msg.messageType]] === 'function') {
+      this[MessageTypeEnum[msg.messageType]](msg);
     }
+  }
+
+  private PLATE_UPDATE(msg: any): void {
+    if (msg.number !== undefined && msg.state !== undefined) {
+      this.updateNumberState(msg.number, msg.state);
+    }
+  }
+
+  private CREATE_GAME(msg: any): void {
+    if (msg.gameId) {
+      this._router.navigate(['spil', msg.gameId]);
+    }
+  }
+
+
+  private JOIN_GAME(msg: any): void {
+    this.isOwner = msg.isOwner;
+    if (msg.board) {
+      msg.board.forEach(n => this.updateNumberState(n, true));
+    }
+  }
+
+  private WELCOME(msg: any): void {
+    if (msg.board) {
+      msg.board.forEach(n => this.updateNumberState(n, true));
+    }
+  }
+
+  private SHOW_CONFETTI(msg: any): void {
+    this._confettiService.showConfetti();
   }
 }
