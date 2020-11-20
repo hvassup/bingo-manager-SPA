@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {FloaterComponent} from './floater.component';
 
@@ -6,7 +6,7 @@ describe('FloaterComponent', () => {
   let component: FloaterComponent;
   let fixture: ComponentFixture<FloaterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FloaterComponent ]
     })

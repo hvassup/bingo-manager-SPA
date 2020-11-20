@@ -25,7 +25,7 @@ import {FloaterComponent} from './floater/floater.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(ALL_ROUTES, { useHash: true })
+    RouterModule.forRoot(ALL_ROUTES, { useHash: true, relativeLinkResolution: 'legacy' })
   ],
   providers: [],
   bootstrap: [AppComponent]
