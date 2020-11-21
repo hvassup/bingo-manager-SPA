@@ -12,7 +12,22 @@
   background-color: #fcfbf7;
   overflow: hidden;
 }
-
+canvas {
+  position: absolute;
+  z-index: 0;
+//  top: 0;
+//  left: 0;
+//  width: 100vw;
+//  height: 100vh;
+}
+button {
+  z-index: 1;
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  top: 30px;
+  left: 30px;
+}
 .num-container {
   display: grid;
   height: 95vh;
