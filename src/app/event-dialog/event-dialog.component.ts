@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BingoEvent} from '../../models/bingoEvent';
 import {EventService} from '../../services/event.service';
 
@@ -7,7 +7,7 @@ import {EventService} from '../../services/event.service';
   templateUrl: './event-dialog.component.html',
   styleUrls: ['./event-dialog.component.scss']
 })
-export class EventDialogComponent implements OnInit {
+export class EventDialogComponent {
   @Input() public event: BingoEvent;
 
   constructor(public readonly eventService: EventService) {
@@ -16,8 +16,4 @@ export class EventDialogComponent implements OnInit {
   public close() {
     this.eventService.nextEvent();
   }
-
-  ngOnInit(): void {
-  }
-
 }

@@ -10,13 +10,16 @@ export class EventService {
   currentEventIdx = 0;
   currentEvent: BingoEvent;
   eventArray: BingoEvent[] = [];
-  constructor(private readonly _plateService: PlateService) {
+  constructor(private readonly plateService: PlateService) {
+    plateService.onStateChange$.subscribe(evt => this.checkForEvent(evt));
   }
 
-  public checkForEvent(num: number) {
-    this.eventArray = this.eventArray.concat(ALL_BINGO_EVENTS.filter(evt => evt.numberTrigger === num));
-    this.currentEvent = this.eventArray[0];
-    this.currentEventIdx = 0;
+  public checkForEvent([num, state]: [number, boolean]) {
+    if (state) {
+      this.eventArray = this.eventArray.concat(ALL_BINGO_EVENTS.filter(evt => evt.numberTrigger === num));
+      this.currentEvent = this.eventArray[0];
+      this.currentEventIdx = 0;
+    }
   }
 
   public nextEvent() {

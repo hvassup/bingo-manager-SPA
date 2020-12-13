@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {ConfettiService} from './confetti.service';
 import {get_user_id} from '../util/GUID.util';
 import {tap} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class PlateService extends SocketService {
   public all_numbers: number[] = [];
   public selected = Array(90).fill(false);
   public isOwner: boolean;
+  public onStateChange$ = new Subject<[number, boolean]>();
 
   constructor(private readonly _router: Router,
               private readonly _confettiService: ConfettiService) {
@@ -37,6 +39,7 @@ export class PlateService extends SocketService {
 
   public updatePlate(number: number) {
     const state = !this.selected[number - 1];
+    this.onStateChange$.next([number, state]);
     this.send({number, state}, MessageTypeEnum.PLATE_UPDATE);
   }
 
@@ -77,6 +80,7 @@ export class PlateService extends SocketService {
 
   private JOIN_GAME(msg: any): void {
     this.isOwner = msg.isOwner;
+    this.selected = Array(90).fill(false);
     if (msg.board) {
       msg.board.forEach(n => this.updateNumberState(n, true));
     }

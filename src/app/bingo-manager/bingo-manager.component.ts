@@ -26,9 +26,6 @@ export class BingoManagerComponent implements OnInit, AfterViewInit {
   onClicked(num: number) {
     if (this.plateService.isOwner) {
       this.plateService.updatePlate(num);
-      if (this.plateService.isSelected(num)) {
-        this.eventService.checkForEvent(num);
-      }
     }
   }
 
