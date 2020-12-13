@@ -29,6 +29,7 @@ export class EventService {
   public quizTime(idx) {
     this.currentQuiz = ALL_QUIZ_QUESTIONS[idx + this.quizStartIdx];
   }
+
   public stopQuiz() {
     this.currentQuiz = null;
   }
