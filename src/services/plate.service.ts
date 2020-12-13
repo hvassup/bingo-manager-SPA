@@ -15,6 +15,8 @@ export class PlateService extends SocketService {
   public selected = Array(90).fill(false);
   public isOwner: boolean;
   public onStateChange$ = new Subject<[number, boolean]>();
+  public onQuizTime$ = new Subject<number>();
+  private numberCounter = 0;
 
   constructor(private readonly _router: Router,
               private readonly _confettiService: ConfettiService) {
@@ -40,6 +42,12 @@ export class PlateService extends SocketService {
   public updatePlate(number: number) {
     const state = !this.selected[number - 1];
     this.onStateChange$.next([number, state]);
+    this.numberCounter += state ? 1 : -1;
+
+    if (this.numberCounter % 10 === 0) {
+      this.onQuizTime$.next(this.numberCounter / 10);
+    }
+
     this.send({number, state}, MessageTypeEnum.PLATE_UPDATE);
   }
 

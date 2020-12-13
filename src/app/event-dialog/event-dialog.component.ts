@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {BingoEvent} from '../../models/bingoEvent';
-import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-event-dialog',
@@ -9,11 +8,12 @@ import {EventService} from '../../services/event.service';
 })
 export class EventDialogComponent {
   @Input() public event: BingoEvent;
+  @Output() public onClose = new EventEmitter<void>();
 
-  constructor(public readonly eventService: EventService) {
+  constructor() {
   }
 
   public close() {
-    this.eventService.nextEvent();
+    this.onClose.emit();
   }
 }

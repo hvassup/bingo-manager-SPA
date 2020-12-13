@@ -4,7 +4,14 @@
 <!--  {{random_num}}-->
 <!--</div>-->
 <app-disconnected-overlay *ngIf="!plateService?.connected"></app-disconnected-overlay>
-<app-event-dialog [class.active]="!!eventService?.currentEvent" [event]="eventService?.currentEvent">
+<app-event-dialog [class.active]="!!eventService?.currentEvent"
+                  [event]="eventService?.currentEvent"
+                  (onClose)="eventService.nextEvent()">
+
+</app-event-dialog>
+<app-event-dialog [class.active]="!!eventService?.currentQuiz"
+                  [event]="eventService?.currentQuiz"
+                  (onClose)="eventService.stopQuiz()">
 
 </app-event-dialog>
 <router-outlet>
